@@ -1,0 +1,38 @@
+diff --git a/python/dolfin/__init__.py b/python/dolfin/__init__.py
+index 5b1dd6394..b61318353 100644
+--- a/python/dolfin/__init__.py
++++ b/python/dolfin/__init__.py
+@@ -70,7 +70,7 @@ from .cpp.generation import (IntervalMesh, BoxMesh, RectangleMesh,
+                              UnitDiscMesh,
+                              UnitTriangleMesh, UnitCubeMesh,
+                              UnitSquareMesh, UnitIntervalMesh,
+-                             SphericalShellMesh)
++                             SphericalShellMesh, UnitTetrahedronMesh)
+ from .cpp.graph import GraphBuilder
+ from .cpp.io import File, XDMFFile, VTKFile
+ from .cpp.la import (list_linear_algebra_backends,
+diff --git a/python/src/generation.cpp b/python/src/generation.cpp
+index f1e8e0e9d..01326cf97 100644
+--- a/python/src/generation.cpp
++++ b/python/src/generation.cpp
+@@ -32,7 +32,7 @@
+ #include <dolfin/generation/UnitSquareMesh.h>
+ #include <dolfin/generation/UnitIntervalMesh.h>
+ #include <dolfin/generation/IntervalMesh.h>
+-
++#include <dolfin/generation/UnitTetrahedronMesh.h>
+ #include "casters.h"
+ 
+ namespace py = pybind11;
+@@ -138,8 +138,9 @@ namespace dolfin_wrappers
+     // dolfin::UnitTriangleMesh
+     py::class_<dolfin::UnitTriangleMesh>(m, "UnitTriangleMesh")
+       .def_static("create", &dolfin::UnitTriangleMesh::create);
+-
+-    // dolfin::BoxMesh
++    py::class_<dolfin::UnitTetrahedronMesh>(m, "UnitTetrahedronMesh")
++      .def_static("create", &dolfin::UnitTetrahedronMesh::create);
++   // dolfin::BoxMesh
+     py::class_<dolfin::BoxMesh, std::shared_ptr<dolfin::BoxMesh>, dolfin::Mesh>(m, "BoxMesh")
+       .def(py::init<const dolfin::Point&, const dolfin::Point&, std::size_t, std::size_t, std::size_t>())
+       .def(py::init([](const MPICommWrapper comm, const dolfin::Point& p0, const dolfin::Point& p1,
