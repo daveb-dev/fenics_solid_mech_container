@@ -10,7 +10,7 @@ RUN bash -l -c "/home/fenics/bin/fenics-pull && \
                 PIP_NO_CACHE_DIR=off "
 COPY save.patch /home/fenics/local/src/dolfin/save.patch 
 
-RUN  cd /home/fenics/local/src/dolfin && \
+RUN  cd /home/fenics/local/src/dolfin/python && \
      git apply save.patch && \
      cd $HOME
      
